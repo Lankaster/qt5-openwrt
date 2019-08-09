@@ -10,21 +10,24 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qt5
-PKG_VERSION:=5.10
-PKG_RELEASE:=1
-PKG_MD5SUM:=7e167b9617e7bd64012daaacb85477af
+PKG_VERSION:=5.12
+PKG_RELEASE:=4
+PKG_MD5SUM:=dda95b0239d13c5276834177af3a8588
 
 PKG_SOURCE:=qt-everywhere-src-$(PKG_VERSION).$(PKG_RELEASE).tar.xz
 PKG_SOURCE_URL:=http://download.qt-project.org/archive/qt/$(PKG_VERSION)/$(PKG_VERSION).$(PKG_RELEASE)/single
 PKG_BUILD_DIR=$(BUILD_DIR)/qt-everywhere-src-$(PKG_VERSION).$(PKG_RELEASE)
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
-PKG_BUILD_DEPENDS:=
+PKG_BUILD_DEPENDS:=libiconv
 
 PKG_MAINTAINER:=Yaroslav Petrov <info@lank.me>
 
 include $(INCLUDE_DIR)/package.mk
--include $(if $(DUMP),,./files/qmake.mk)
+include $(INCLUDE_DIR)/nls.mk
+#include $(TARGET_LDFLAGS)/nls.mk
+
+#-include $(if $(DUMP),,./files/qmake.mk)
 
 # not using sstrip here as this fucks up the .so's somehow
 STRIP:=/bin/true
@@ -40,7 +43,7 @@ define Package/qt5/Default
   SUBMENU:=Qt5
   TITLE:=qt5
   URL:=http://qt-project.org
-  DEPENDS:=+librt +zlib +libstdcpp +libpcre16 +libpthread +libatomic @!LINUX_2_6
+  DEPENDS:=+librt +zlib +libstdcpp +libpcre16 +libpthread +libatomic +libmysqlclient @!LINUX_2_6
 endef
 
 define Package/qt5-core
@@ -69,7 +72,7 @@ endef
 define Package/qt5-sql
   $(call Package/qt5/Default)
   TITLE+=sql
-  DEPENDS+=+qt5-core +libmariadbclient
+  DEPENDS+=+qt5-core
 endef
 
 define Package/qt5-xml
@@ -114,7 +117,7 @@ define Build/Configure
 		TARGET_LDFLAGS="$(TARGET_LDFLAGS) $(EXTRA_LDFLAGS) -lpthread -lrt" \
 		TARGET_INCDIRS="$(TARGET_INCDIRS)" \
 		TARGET_LIBDIRS="$(TARGET_LIBDIRS) $(STAGING_DIR)/usr/lib/" \
-		CFLAGS= \
+		CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS)" \
 		CXXFLAGS= \
 		LDFLAGS= \
 		./configure \
@@ -129,7 +132,6 @@ define Build/Configure
 			-no-iconv \
 			-no-pch \
 			-no-rpath \
-			-no-qml-debug \
 			-no-strip \
 			-no-cups \
 			-no-dbus \
@@ -152,6 +154,7 @@ define Build/Configure
 			-skip wayland \
 			-skip qtscript \
 			-sql-mysql \
+			-I$(STAGING_DIR)/usr/include/mysql \
 			-v \
 	)
 endef
@@ -170,6 +173,9 @@ define Build/Compile
 	STAGING_DIR="$(STAGING_DIR)" \
 	STAGING_DIR_HOST="$(STAGING_DIR)/../host" \
 	PKG_CONFIG_SYSROOT="$(STAGING_DIR)" \
+        TARGET_CPPFLAGS+="-I$(STAGING_DIR)/usr/include/mysql" \
+        TARGET_LDFLAGS+="-L$(STAGING_DIR)/usr/lib/mysql -lmysqlclient" \
+        CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS)" \
 	$(MAKE) -j4 -C $(PKG_BUILD_DIR)
 endef
 

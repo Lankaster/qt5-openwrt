@@ -1,5 +1,5 @@
 # qt5-openwrt
-QT 5.10 for Openwrt 18.04
+QT 5.12.4 for Openwrt 19.x with qt5-mysql plugin
 =========================
 
 Installation instructions
@@ -19,3 +19,5 @@ src-git libqt https://github.com/Lankaster/qt5-openwrt.git
 ```
 
 3. Now you can find QT libs in Libs->Qt5
+
+Deps: libiconv, libmariaclient
