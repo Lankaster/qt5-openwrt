@@ -1,5 +1,5 @@
 # qt5-openwrt
-QT 5.10 for Openwrt 18.04
+QT 5.12.4 for Openwrt 19.07
 =========================
 
 Installation instructions
@@ -9,7 +9,7 @@ Installation instructions
 
 
 ```
-src-git libqt https://github.com/Lankaster/qt5-openwrt.git
+src-git libqt https://github.com/petrov-adg/qt5-openwrt.git
 ```
 
 2. Update & install feeds
