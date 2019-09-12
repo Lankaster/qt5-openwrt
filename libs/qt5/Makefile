@@ -11,8 +11,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qt5
 PKG_VERSION:=5.12
-PKG_RELEASE:=4
-PKG_MD5SUM:=dda95b0239d13c5276834177af3a8588
+PKG_RELEASE:=5
+PKG_MD5SUM:=d8c9ed842d39f1a5f31a7ab31e4e886c
 
 PKG_SOURCE:=qt-everywhere-src-$(PKG_VERSION).$(PKG_RELEASE).tar.xz
 PKG_SOURCE_URL:=http://download.qt-project.org/archive/qt/$(PKG_VERSION)/$(PKG_VERSION).$(PKG_RELEASE)/single
