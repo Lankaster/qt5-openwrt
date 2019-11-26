@@ -1,5 +1,5 @@
 # qt5-openwrt
-QT 5.12.5 for Openwrt 19.07 with modbus & serialport
+QT 5.12.6 for Openwrt 19.07 with modbus & serialport
 =========================
 
 Installation instructions
