@@ -11,8 +11,8 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qt5
 PKG_VERSION:=5.12
-PKG_RELEASE:=4
-PKG_MD5SUM:=dda95b0239d13c5276834177af3a8588
+PKG_RELEASE:=6
+PKG_MD5SUM:=287d71e71ebd97f77220873e7b131b1a
 
 PKG_SOURCE:=qt-everywhere-src-$(PKG_VERSION).$(PKG_RELEASE).tar.xz
 PKG_SOURCE_URL:=http://download.qt-project.org/archive/qt/$(PKG_VERSION)/$(PKG_VERSION).$(PKG_RELEASE)/single
@@ -85,6 +85,12 @@ define Package/qt5-serialport
   $(call Package/qt5/Default)
   TITLE+=serialport
   DEPENDS+=+qt5-core
+endef
+
+define Package/qt5-serialbus
+  $(call Package/qt5/Default)
+  TITLE+=serialbus
+  DEPENDS+=+qt5-core +qt5-network +qt5-serialport
 endef
 
 define Package/qt5-xmlpatterns
@@ -248,7 +254,14 @@ define Package/qt5-serialport/install
 	$(INSTALL_DIR) $(1)/usr/lib/
 	$(CP) $(PKG_BUILD_DIR)/qtserialport/lib/libQt5SerialPort.so* $(1)/usr/lib/
 	$(CP) $(PKG_BUILD_DIR)/qtserialport/lib/libQt5SerialPort.prl $(1)/usr/lib/
-	$(CP) $(PKG_BUILD_DIR)/qtserialport/lib/libQt5SerialPort.la 	$(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtserialport/lib/libQt5SerialPort.la $(1)/usr/lib/
+endef
+
+define Package/qt5-serialbus/install
+	$(INSTALL_DIR) $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtserialbus/lib/libQt5SerialBus.so* $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtserialbus/lib/libQt5SerialBus.prl $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtserialbus/lib/libQt5SerialBus.la $(1)/usr/lib/
 endef
 
 define Package/qt5-xmlpatterns/install
@@ -272,5 +285,6 @@ $(eval $(call BuildPackage,qt5-widgets))
 $(eval $(call BuildPackage,qt5-sql))
 $(eval $(call BuildPackage,qt5-xml))
 $(eval $(call BuildPackage,qt5-serialport))
+$(eval $(call BuildPackage,qt5-serialbus))
 $(eval $(call BuildPackage,qt5-xmlpatterns))
 $(eval $(call BuildPackage,qt5-test))
