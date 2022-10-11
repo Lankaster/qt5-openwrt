@@ -286,9 +286,6 @@ endef
 
 define Package/qt5-location/install
 	$(INSTALL_DIR) $(1)/usr/lib/
-	$(CP) $(PKG_BUILD_DIR)/qtlocation/lib/libQt5Location.so* $(1)/usr/lib/
-	$(CP) $(PKG_BUILD_DIR)/qtlocation/lib/libQt5Location.prl $(1)/usr/lib/
-	$(CP) $(PKG_BUILD_DIR)/qtlocation/lib/libQt5Location.la $(1)/usr/lib/
 	$(CP) $(PKG_BUILD_DIR)/qtlocation/lib/libQt5Positioning.so* $(1)/usr/lib/
 	$(CP) $(PKG_BUILD_DIR)/qtlocation/lib/libQt5Positioning.prl $(1)/usr/lib/
 	$(CP) $(PKG_BUILD_DIR)/qtlocation/lib/libQt5Positioning.la $(1)/usr/lib/
