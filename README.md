@@ -9,7 +9,7 @@ Installation instructions
 
 
 ```
-src-git libqt https://github.com/karaketir16/qt5-openwrt.git
+src-git libqt https://github.com/Lankaster/qt5-openwrt.git
 ```
 
 2. Update & install feeds
