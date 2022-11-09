@@ -10,12 +10,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qt5
-PKG_VERSION:=5.12
+PKG_VERSION:=5.15
 PKG_RELEASE:=6
-PKG_MD5SUM:=287d71e71ebd97f77220873e7b131b1a
+PKG_MD5SUM:=eac9a97ea5335eeb1a8f0c39d016bf70
 
-PKG_SOURCE:=qt-everywhere-src-$(PKG_VERSION).$(PKG_RELEASE).tar.xz
-PKG_SOURCE_URL:=http://download.qt-project.org/archive/qt/$(PKG_VERSION)/$(PKG_VERSION).$(PKG_RELEASE)/single
+PKG_SOURCE:=qt-everywhere-opensource-src-$(PKG_VERSION).$(PKG_RELEASE).tar.xz
+PKG_SOURCE_URL:=https://download.qt.io/archive/qt/$(PKG_VERSION)/$(PKG_VERSION).$(PKG_RELEASE)/single
 PKG_BUILD_DIR=$(BUILD_DIR)/qt-everywhere-src-$(PKG_VERSION).$(PKG_RELEASE)
 PKG_BUILD_PARALLEL:=1
 PKG_USE_MIPS16:=0
@@ -102,6 +102,12 @@ endef
 define Package/qt5-test
   $(call Package/qt5/Default)
   TITLE+=test
+  DEPENDS+=+qt5-core
+endef
+
+define Package/qt5-location
+  $(call Package/qt5/Default)
+  TITLE+=location
   DEPENDS+=+qt5-core
 endef
 
@@ -278,6 +284,13 @@ define Package/qt5-test/install
 	$(CP) $(PKG_BUILD_DIR)/qtbase/lib/libQt5Test.la $(1)/usr/lib/
 endef
 
+define Package/qt5-location/install
+	$(INSTALL_DIR) $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtlocation/lib/libQt5Positioning.so* $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtlocation/lib/libQt5Positioning.prl $(1)/usr/lib/
+	$(CP) $(PKG_BUILD_DIR)/qtlocation/lib/libQt5Positioning.la $(1)/usr/lib/
+endef
+
 $(eval $(call BuildPackage,qt5-core))
 $(eval $(call BuildPackage,qt5-concurrent))
 $(eval $(call BuildPackage,qt5-network))
@@ -288,3 +301,4 @@ $(eval $(call BuildPackage,qt5-serialport))
 $(eval $(call BuildPackage,qt5-serialbus))
 $(eval $(call BuildPackage,qt5-xmlpatterns))
 $(eval $(call BuildPackage,qt5-test))
+$(eval $(call BuildPackage,qt5-location))
